@@ -1,4 +1,4 @@
-class Hsdemo < Formula
+class Hsd < Formula
     desc "hsd"
     version "1.0"
     url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.0/hsd" 
