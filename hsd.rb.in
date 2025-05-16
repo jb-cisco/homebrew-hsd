@@ -2,17 +2,33 @@ class Hsd < Formula
   desc "hsd"
   version "{{VERSION}}"
 
-on_arm do
-  url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-arm64"
-  sha256 "{{ARM_SHA256}}"
-end
+  on_arm do
+    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-arm64"
+    sha256 "{{ARM_SHA256}}"
+  end
 
-on_intel do
-  url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-amd64"
-  sha256 "{{INTEL_SHA256}}"
-end
+  on_intel do
+    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-amd64"
+    sha256 "{{INTEL_SHA256}}"
+  end
 
   def install
-    bin.install "hsd"
+    arch = Hardware::CPU.arm? ? "arm64" : "amd64"
+    bin.install "hsd-#{arch}" => "hsd"
+  end
+
+  def post_install
+    config_path = File.expand_path("~/.hsd")
+    unless File.exist?(config_path)
+      opoo "No existing hsd config found. run hsd config init"
+    end
+
+    recommended = ["awscli", "kubernetes-cli", "helm"]
+    missing = recommended.reject { |pkg| system("brew", "list", pkg, out: File::NULL, err: File::NULL) }
+    unless missing.empty?
+      puts "Recommended Homebrew packages missing: #{missing.join(', ')}"
+      puts "You can install them with:"
+      puts "  brew install #{missing.join(' ')}"
+    end
   end
 end
