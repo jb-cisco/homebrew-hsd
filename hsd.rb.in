@@ -1,0 +1,18 @@
+class Hsd < Formula
+  desc "hsd"
+  version "{{VERSION}}"
+
+on_arm do
+  url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-arm64"
+  sha256 "{{ARM_SHA256}}"
+end
+
+on_intel do
+  url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-amd64"
+  sha256 "{{INTEL_SHA256}}"
+end
+
+  def install
+    bin.install "hsd"
+  end
+end
