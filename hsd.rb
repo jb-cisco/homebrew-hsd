@@ -1,15 +1,15 @@
 class Hsd < Formula
   desc "hsd"
-  version "1.3"
+  version "1.4"
 
   on_arm do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.3/hsd-arm64"
-    sha256 "930cb4b260c56dbf9d58857a82010496c78cd92850b0aa291a84a12f82b54ca4"
+    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.4/hsd-arm64"
+    sha256 "7cf121fe6a0e420a79ed42954533051899381c5c3c677919161f9a62675bf32e"
   end
 
   on_intel do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.3/hsd-amd64"
-    sha256 "56fe356a2bf34dd131abad5a38476c5b3000e59145484ab89270f6ce74cd2586"
+    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.4/hsd-amd64"
+    sha256 "dcffc22f8db030b8c9e37ab12c15b8ee994be0ab02ad142b02c9eb1e0f998c9e"
   end
 
   def install
