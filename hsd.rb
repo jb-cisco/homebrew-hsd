@@ -1,20 +1,35 @@
 class Hsd < Formula
   desc "hsd"
-  version "1.9"
+  version "1.10"
 
-  on_arm do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.9/hsd-arm64"
-    sha256 "84c4717add85e831c68d3a0a1f9933537c250bf62cc828bbfd5e3f987f100453"
+  on_macos do
+    on_arm do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.10/hsd-darwin-arm64"
+      sha256 "c9ca881d312863215a68e3131490d7dbbc99090ae4e711e85991ebf65e08e01b"
+    end
+    
+    on_intel do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.10/hsd-darwin-amd64"
+      sha256 "89637602031a16f9890fe62e73a98c16a352ae362b640b8ab6532c23ec2f2093"
+    end
   end
 
-  on_intel do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.9/hsd-amd64"
-    sha256 "1fdac90e470077e2573605fed2170bfd9e84d814841241d427d07b3ddfa40b5d"
+  on_linux do
+    on_arm do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.10/hsd-linux-arm64"
+      sha256 "d98b3d795fdc775e81e18de94372e4ebf05d6d5c071e681f6ffbd647535a1f10"
+    end
+    
+    on_intel do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.10/hsd-linux-amd64"
+      sha256 "d1923ff2d89de20ed5da7f54a2d332d385cdf7fe04dfdaf1212e841bcdd8b9a3"
+    end
   end
 
   def install
+    os = OS.mac? ? "darwin" : "linux"
     arch = Hardware::CPU.arm? ? "arm64" : "amd64"
-    bin.install "hsd-#{arch}" => "hsd"
+    bin.install "hsd-#{os}-#{arch}" => "hsd"
   end
 
   def post_install
@@ -23,7 +38,13 @@ class Hsd < Formula
       opoo "No existing hsd config found. Run: hsd config init"
     end
 
-    recommended = ["awscli", "kubernetes-cli", "helm"]
+    if OS.mac?
+      recommended = ["awscli", "kubernetes-cli", "helm"]
+    else
+      # For Linux, the package names might be different
+      recommended = ["awscli", "kubernetes-cli", "helm"]
+    end
+
     missing = recommended.reject do |pkg|
       quiet_system "brew", "list", "--formula", pkg
     end
