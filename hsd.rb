@@ -1,28 +1,28 @@
 class Hsd < Formula
   desc "hsd"
-  version "1.19"
+  version "1.20"
 
   on_macos do
     on_arm do
-      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.19/hsd-darwin-arm64"
-      sha256 "eaa4c8fb1f2070329b59a6e085f1e463725cd41bd92e39cf38461df2210cf252"
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.20/hsd-darwin-arm64"
+      sha256 "db56390ed6cd61e9adc810114a24262b2c32a805f42789129afa77e5ce783646"
     end
     
     on_intel do
-      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.19/hsd-darwin-amd64"
-      sha256 "3c9251deb4c4456dc3eccf8c061368f35390e6d9806d653980b80e070cebc9b6"
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.20/hsd-darwin-amd64"
+      sha256 "8c2e7f1b29e00baebc8405b18657b1b6effefd5763ad7c09d9514f8169b2ff4f"
     end
   end
 
   on_linux do
     on_arm do
-      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.19/hsd-linux-arm64"
-      sha256 "fd51ad510e12aa3915642bae90c945b9bb88a536d56a04ef7d370b2ab0896961"
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.20/hsd-linux-arm64"
+      sha256 "1889f05aecd9ebc58131bdc6d0fc07038e948e777ca7ef814004df8a1ca5be60"
     end
     
     on_intel do
-      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.19/hsd-linux-amd64"
-      sha256 "cb43e1416543c08e63915331883a9fc2d2b355d616f4eb53565e48f19d0c5d73"
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v1.20/hsd-linux-amd64"
+      sha256 "0fd7052f50be561dfde82d24abf63735f7089ec8e1afe050c5939d41a62ee8c0"
     end
   end
 
