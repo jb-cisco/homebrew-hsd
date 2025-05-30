@@ -2,33 +2,57 @@ class Hsd < Formula
   desc "hsd"
   version "{{VERSION}}"
 
-  on_arm do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-arm64"
-    sha256 "{{ARM_SHA256}}"
+  on_macos do
+    on_arm do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-darwin-arm64"
+      sha256 "{{MAC_ARM_SHA256}}"
+    end
+    
+    on_intel do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-darwin-amd64"
+      sha256 "{{MAC_INTEL_SHA256}}"
+    end
   end
 
-  on_intel do
-    url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-amd64"
-    sha256 "{{INTEL_SHA256}}"
+  on_linux do
+    on_arm do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-linux-arm64"
+      sha256 "{{LINUX_ARM_SHA256}}"
+    end
+    
+    on_intel do
+      url "https://github.com/jb-cisco/homebrew-hsd/releases/download/v{{VERSION}}/hsd-linux-amd64"
+      sha256 "{{LINUX_INTEL_SHA256}}"
+    end
   end
 
   def install
+    os = OS.mac? ? "darwin" : "linux"
     arch = Hardware::CPU.arm? ? "arm64" : "amd64"
-    bin.install "hsd-#{arch}" => "hsd"
+    bin.install "hsd-#{os}-#{arch}" => "hsd"
   end
 
   def post_install
     config_path = File.expand_path("~/.hsd")
     unless File.exist?(config_path)
-      opoo "No existing hsd config found. run hsd config init"
+      opoo "No existing hsd config found. Run: hsd config init"
     end
 
-    recommended = ["awscli", "kubernetes-cli", "helm"]
-    missing = recommended.reject { |pkg| system("brew", "list", pkg, out: File::NULL, err: File::NULL) }
+    if OS.mac?
+      recommended = ["awscli", "kubernetes-cli", "helm"]
+    else
+      # For Linux, the package names might be different
+      recommended = ["awscli", "kubernetes-cli", "helm"]
+    end
+
+    missing = recommended.reject do |pkg|
+      quiet_system "brew", "list", "--formula", pkg
+    end
+    
     unless missing.empty?
-      puts "Recommended Homebrew packages missing: #{missing.join(', ')}"
-      puts "You can install them with:"
-      puts "  brew install #{missing.join(' ')}"
+      ohai "Recommended Homebrew packages missing: #{missing.join(', ')}"
+      ohai "You can install them with:"
+      ohai "  brew install #{missing.join(' ')}"
     end
   end
 end
